@@ -1,3 +1,13 @@
+}
+@font-face {
+  font-family: "Monocraft";
+  src: url("fonts/Monocraft.woff2") format("woff2"),
+       url("fonts/Monocraft.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #0b1a14;
   --bg-alt: #0f241b;
@@ -19,13 +29,15 @@
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
   margin: 0;
-  font-family: "Press Start 2P", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font);
+  font-size: 18px;
+  font-synthesis: none;
   background: var(--bg);
   color: var(--text);
-  font-size: 12px;
-  line-height: 1.35;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
 }
+
+button, input, summary { font-family: var(--font); }
 img { max-width: 100%; display: block; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
 .skip-link {
@@ -37,7 +49,7 @@ img { max-width: 100%; display: block; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 code {
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-family: var(--font);
   background: rgba(255, 255, 255, 0.08);
   padding: 2px 7px;
   border-radius: 6px;
