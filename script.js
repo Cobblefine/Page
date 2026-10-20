@@ -192,7 +192,7 @@
   function timeAgo(iso) {
     const diff = Math.max(0, Date.now() - new Date(iso).getTime());
     const h = Math.floor(diff / 36e5);
-    if (h < 1) return 'Just now';
+    if (h < 1) return 'Just Now';
     if (h < 24) return `${h}h ago`;
     const d = Math.floor(h / 24);
     if (d < 30) return `${d}d ago`;
