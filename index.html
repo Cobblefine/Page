@@ -3,22 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cobblefine — The Optimization Modpack for Cobblemon</title>
+  <title>Cobblefine</title>
   <meta name="description" content="Cobblefine is a lightweight, performance-focused Cobblemon modpack for Fabric on Minecraft 1.21.1. Built for low-end PCs and laptops.">
   <meta name="theme-color" content="#0b1a14">
   <meta name="color-scheme" content="dark">
+  <script>document.documentElement.classList.add('js');</script>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cobblefine — The Optimization Modpack for Cobblemon">
+  <meta name="twitter:description" content="Smooth, stable Cobblemon on low-end PCs. Fabric · Minecraft 1.21.1 · Client-side.">
   <meta name="twitter:image" content="https://i.imgur.com/NC06Ppu.png">
-  <script>document.documentElement.classList.add('js');</script>
+  <meta name="twitter:image:alt" content="Cobblefine Modpack Banner">
   <meta property="og:title" content="Cobblefine — The Optimization Modpack for Cobblemon">
   <meta property="og:description" content="Smooth, stable Cobblemon on low-end PCs. Fabric · Minecraft 1.21.1 · Client-side.">
   <meta property="og:image" content="https://i.imgur.com/NC06Ppu.png">
+  <meta property="og:image:alt" content="Cobblefine Modpack Banner">
+  <meta property="og:site_name" content="Cobblefine">
   <meta property="og:type" content="website">
   <link rel="icon" href="https://cdn.modrinth.com/data/suGMUori/f68bc70d7828ca642df5f3cccd2b682128c2ed81_96.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://i.imgur.com">
+  <link rel="preconnect" href="https://api.modrinth.com" crossorigin>
+  <!-- Fonts load without blocking first paint (display=swap shows fallback text meanwhile) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap"></noscript>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,7 +39,7 @@
         <img src="https://cdn.modrinth.com/data/suGMUori/f68bc70d7828ca642df5f3cccd2b682128c2ed81_96.webp" alt="" width="36" height="36">
         <span>Cobblefine</span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu" aria-controls="navLinks" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <nav class="nav-links" id="navLinks">
@@ -55,7 +63,7 @@
       </div>
       <div class="container hero-inner">
         <div class="hero-text">
-          <p class="eyebrow">Fabric · Minecraft 1.21.1 · Client-Side</p>
+          <p class="eyebrow">Fabric · Minecraft 1.21.1 · Client-side</p>
           <h1>Cobble<span>fine</span></h1>
           <p class="tagline">The optimization modpack of the Cobblemon mod.</p>
           <p class="lead">
@@ -85,6 +93,7 @@
           </div>
         </div>
       </div>
+      <div class="hero-mons" id="heroMons" aria-hidden="true"></div>
       <div class="grass" aria-hidden="true"></div>
     </section>
 
@@ -100,9 +109,12 @@
         <div class="chips">
           <span class="chip">Lightweight</span>
           <span class="chip">Optimization</span>
-          <span class="chip">Adventure</span>
+          <span class="chip">Performance</span>
+          <span class="chip">QoL</span>
           <span class="chip">Multiplayer</span>
         </div>
+        <h3 class="dex-title">A Few Familiar Faces</h3>
+        <ul class="dex" id="dexStrip"></ul>
       </div>
     </section>
 
@@ -166,7 +178,7 @@
         <h2 class="section-title reveal">Cobblemon 1.8 Update Supported</h2>
         <div class="video reveal" id="video" data-yt="nKokFJ1Nn2E">
           <button class="video-play" id="videoPlay" type="button" aria-label="Play the Cobblemon Showcase Video">
-            <img src="https://i.ytimg.com/vi/nKokFJ1Nn2E/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+            <img src="https://i.ytimg.com/vi/nKokFJ1Nn2E/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
             <span class="play-icon" aria-hidden="true"></span>
           </button>
           <noscript>
@@ -187,7 +199,8 @@
           <div class="filters" id="modFilters" role="group" aria-label="Filter Mods by Category"></div>
         </div>
 
-        <div class="grid mods" id="modGrid" aria-live="polite"></div>
+        <div class="grid mods" id="modGrid"></div>
+        <p class="sr-only" id="modStatus" role="status" aria-live="polite"></p>
         <noscript>
           <p class="note center">Enable JavaScript to browse the mod list, or see it on
             <a href="https://modrinth.com/modpack/cobblefine" target="_blank" rel="noopener">Modrinth</a>.</p>
@@ -314,7 +327,8 @@
       <p class="legal">
         Cobblefine is not affiliated with Cobbled Studios. This modpack was entirely created by fans.<br>
         Not an official Minecraft service. Not approved by or associated with Mojang or Microsoft.
-        Pokémon and all related names are trademarks of their respective owners.
+        Pokémon and all related names are trademarks of their respective owners.<br>
+        Pokémon sprites are loaded from the <a href="https://github.com/PokeAPI/sprites" target="_blank" rel="noopener">PokéAPI sprites repository</a>.
       </p>
     </div>
   </footer>

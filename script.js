@@ -4,7 +4,6 @@
   const PROJECT_ID = 'suGMUori';
   const API = 'https://api.modrinth.com/v2';
 
-  /* ---------- DATA ---------- */
   const MODS = [
     // Performance
     { name: 'Sodium', id: 'AANobbMI', cat: 'Performance', desc: 'Modern rendering engine that greatly improves frame rates and reduces stutter.' },
@@ -55,11 +54,11 @@
   ];
 
   const PACKS = [
-    { name: 'E19 — Cobblemon Minimap Icons', url: 'https://modrinth.com/resourcepack/Va3BanZa' },
+    { name: 'Vanilla Tweaks', url: 'https://vanillatweaks.net/' },
     { name: 'Authentic Shadows', url: 'https://modrinth.com/resourcepack/kWgq7eAt' },
     { name: 'Chat Reporting Helper', url: 'https://modrinth.com/resourcepack/tN4E9NfV' },
     { name: 'Translations for Sodium', url: 'https://modrinth.com/resourcepack/yfDziwn1' },
-    { name: 'Vanilla Tweaks', url: 'https://vanillatweaks.net/' }
+    { name: 'E19 - Cobblemon Minimap Icons', url: 'https://modrinth.com/resourcepack/Va3BanZa' }
   ];
 
   const SERVERS = [
@@ -77,6 +76,19 @@
     { name: 'CobbleLand', url: 'https://store.cobbleland.com/' }
   ];
 
+  const SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+  const HERO_MONS = [
+    { id: 143, x: '50%' }
+  ];
+  const DEX = [
+    { id: 1, name: 'Bulbasaur' },
+    { id: 4, name: 'Charmander' },
+    { id: 7, name: 'Squirtle' },
+    { id: 25, name: 'Pikachu' },
+    { id: 133, name: 'Eevee' },
+    { id: 143, name: 'Snorlax' }
+  ];
+
   const EXTERNAL_ICON =
     '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>';
 
@@ -85,7 +97,6 @@
   const esc = (s) =>
     String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* ---------- NAV ---------- */
   const navToggle = $('#navToggle');
   const navLinks = $('#navLinks');
   navToggle.addEventListener('click', () => {
@@ -100,30 +111,42 @@
     if (e.target.closest('a')) closeNav();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeNav();
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeNav();
+      navToggle.focus();
+    }
+  });
+  window.matchMedia('(min-width: 881px)').addEventListener('change', (e) => {
+    if (e.matches) closeNav();
   });
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#nav')) closeNav();
   });
 
-  /* ---------- MODS ---------- */
   const modGrid = $('#modGrid');
   const modEmpty = $('#modEmpty');
   const modSearch = $('#modSearch');
   const modFilters = $('#modFilters');
+  const modStatus = $('#modStatus');
   const categories = ['All', ...new Set(MODS.map((m) => m.cat))];
   let activeCat = 'All';
 
   function renderFilters() {
     modFilters.innerHTML = categories
-      .map(
-        (c) =>
-          `<button type="button" class="filter${c === activeCat ? ' active' : ''}" data-cat="${esc(c)}" aria-pressed="${c === activeCat}">${esc(c)}</button>`
-      )
+      .map((c) => `<button type="button" class="filter" data-cat="${esc(c)}">${esc(c)}</button>`)
       .join('');
+    updateFilters();
   }
 
-  function renderMods() {
+  function updateFilters() {
+    modFilters.querySelectorAll('.filter').forEach((b) => {
+      const on = b.dataset.cat === activeCat;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+  }
+
+  function renderMods(announce = false) {
     const q = modSearch.value.trim().toLowerCase();
     const list = MODS.filter(
       (m) =>
@@ -134,29 +157,33 @@
       .map(
         (m) => `
         <a class="mod" href="https://modrinth.com/mod/${esc(m.id)}" target="_blank" rel="noopener">
-          <h4><span>${esc(m.name)}</span>${EXTERNAL_ICON}</h4>
+          <h3><span>${esc(m.name)}</span>${EXTERNAL_ICON}</h3>
           <p>${esc(m.desc)}</p>
           <span class="cat">${esc(m.cat)}</span>
         </a>`
       )
       .join('');
     modEmpty.hidden = list.length > 0;
+    if (announce) modStatus.textContent = `${list.length} mod${list.length === 1 ? '' : 's'} shown`;
   }
 
   modFilters.addEventListener('click', (e) => {
     const btn = e.target.closest('.filter');
     if (!btn) return;
     activeCat = btn.dataset.cat;
-    renderFilters();
-    renderMods();
+    updateFilters();
+    renderMods(true);
   });
-  modSearch.addEventListener('input', renderMods);
+  let searchTimer;
+  modSearch.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => renderMods(true), 120);
+  });
 
   renderFilters();
   renderMods();
   $('#modCountSpec').textContent = String(MODS.length);
 
-  /* ---------- PACKS + SERVERS ---------- */
   $('#packGrid').innerHTML = PACKS.map(
     (p) => `<a class="pack" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`
   ).join('');
@@ -165,26 +192,56 @@
     (s) => `<a class="server" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}<span>↗</span></a>`
   ).join('');
 
-  /* ---------- COPY JVM ARGS ---------- */
+  const spriteUrl = (id) => `${SPRITE_BASE}${id}.png`;
+  const pad3 = (n) => String(n).padStart(3, '0');
+  const dropBroken = (root) =>
+    root.querySelectorAll('img').forEach((img) =>
+      img.addEventListener('error', () => (img.closest('li') || img).remove(), { once: true })
+    );
+
+  const heroMons = $('#heroMons');
+  if (heroMons) {
+    heroMons.innerHTML = HERO_MONS.map(
+      (m, i) =>
+        `<img class="mon" src="${spriteUrl(m.id)}" alt="" width="96" height="96" decoding="async" style="--x:${esc(m.x)};--d:${(i * -0.5).toFixed(1)}s;--flip:${m.flip || 1}">`
+    ).join('');
+    dropBroken(heroMons);
+  }
+
+  const dexStrip = $('#dexStrip');
+  if (dexStrip) {
+    dexStrip.innerHTML = DEX.map(
+      (m) =>
+        `<li><img src="${spriteUrl(m.id)}" alt="${esc(m.name)}" width="96" height="96" loading="lazy" decoding="async"><span class="no">#${pad3(m.id)}</span><span class="nm">${esc(m.name)}</span></li>`
+    ).join('');
+    dropBroken(dexStrip);
+  }
+
   const copyBtn = $('#copyJvm');
+  let copyTimer;
   copyBtn.addEventListener('click', async () => {
-    const text = $('#jvmArgs').textContent;
+    const target = $('#jvmArgs');
+    let ok = true;
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(target.textContent);
     } catch {
-      const range = document.createRange();
-      range.selectNodeContents($('#jvmArgs'));
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-      document.execCommand('copy');
-      sel.removeAllRanges();
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ok = document.execCommand('copy');
+        if (ok) sel.removeAllRanges();
+      } catch {
+        ok = false;
+      }
     }
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => (copyBtn.textContent = 'Copy'), 1800);
+    copyBtn.textContent = ok ? 'Copied!' : 'Press Ctrl+C';
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => (copyBtn.textContent = 'Copy'), 1800);
   });
 
-  /* ---------- LIVE STATS FROM MODRINTH ---------- */
   const fmt = (n) =>
     n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' :
     n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n);
@@ -201,8 +258,8 @@
     return `${Math.floor(mo / 12)}y ago`;
   }
 
-  const CACHE_KEY = 'cobblefine-stats-v1';
-  const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+  const CACHE_KEY = 'cobblefine-stats';
+  const CACHE_TTL = 10 * 60 * 1000;
 
   function readCache() {
     try {
@@ -217,7 +274,7 @@
 
   async function getJson(url) {
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const timer = setTimeout(() => ctrl.abort(), 6000);
     try {
       const res = await fetch(url, { signal: ctrl.signal });
       return res.ok ? await res.json() : null;
@@ -234,7 +291,6 @@
       el.textContent = value;
       el.parentElement.classList.remove('stat-hidden');
     } else if (el.textContent.trim() === '—') {
-      // No live value and no fallback: hide this stat instead of showing a dash.
       el.parentElement.classList.add('stat-hidden');
     }
   }
@@ -252,7 +308,7 @@
 
     const [project, versions] = await Promise.all([
       getJson(`${API}/project/${PROJECT_ID}`),
-      getJson(`${API}/project/${PROJECT_ID}/version`)
+      getJson(`${API}/project/${PROJECT_ID}/version?include_changelog=false`)
     ]);
     const latest = Array.isArray(versions) && versions.length ? versions[0] : null;
     const data = {
@@ -261,26 +317,31 @@
       updated: project ? project.updated : null,
       version: latest ? latest.version_number || latest.name : ''
     };
-    if (project || latest) writeCache(data);
+    if (project && latest) writeCache(data);
     applyStats(data);
   }
   loadStats();
 
-  /* ---------- YOUTUBE FACADE (loads the player only on click) ---------- */
   const video = $('#video');
   const videoPlay = $('#videoPlay');
   if (video && videoPlay) {
     videoPlay.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${video.dataset.yt}?autoplay=1&rel=0`;
-      iframe.title = 'Cobblefine showcase';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.dataset.yt)}?autoplay=1&rel=0&playsinline=1`;
+      iframe.title = 'Cobblefine showcase video';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;
       video.replaceChildren(iframe);
+      iframe.focus();
     });
   }
 
-  /* ---------- SCROLL REVEAL ---------- */
+  const hero = $('.hero');
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([en]) => hero.classList.toggle('is-offscreen', !en.isIntersecting)).observe(hero);
+  }
+
   const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
