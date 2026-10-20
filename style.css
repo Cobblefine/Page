@@ -19,7 +19,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
   margin: 0;
-  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: "Press Start 2P", system-ui;
   background: var(--bg);
   color: var(--text);
   line-height: 1.65;
@@ -36,7 +36,7 @@ img { max-width: 100%; display: block; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 code {
-  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-family: "Press Start 2P", system-ui;
   background: rgba(255, 255, 255, 0.08);
   padding: 2px 7px;
   border-radius: 6px;
