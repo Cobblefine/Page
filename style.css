@@ -319,7 +319,6 @@ html:not(.js) .stats li:not(:first-child) { display: none; }
 .hero.is-offscreen *::before,
 .hero.is-offscreen *::after { animation-play-state: paused !important; }
 
-/* Touch devices: no sticky hover states */
 @media (hover: none) {
   .btn:hover { transform: none; filter: none; }
   .hero-frame:hover { transform: rotate(1.5deg); }
@@ -339,7 +338,6 @@ html:not(.js) .stats li:not(:first-child) { display: none; }
   .hero { padding: 44px 0 120px; }
   .hero-art { max-width: 560px; width: 100%; margin-inline: auto; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* Blur is costly on low-end phones: use a solid bar instead */
   .nav { background: rgba(32, 32, 32, 0.98); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .nav-toggle { display: block; }
   .nav-links {

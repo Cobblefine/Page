@@ -49,7 +49,7 @@
 
     // Libraries
     { name: 'Fabric API', id: 'P7dR8mSH', cat: 'Libraries', desc: 'Core library for Fabric mods.' },
-    { name: 'Fabric Language Kotlin', id: 'Ha28R6CL', cat: 'Libraries', desc: 'Kotlin language adapter required by Cobblemon.' },
+    { name: 'Fabric Language Kotlin', id: 'Ha28R6CL', cat: 'Libraries', desc: 'Kotlin language adapter for Fabric mods.' },
     { name: 'Cloth Config v15', id: '9s6osm5g', cat: 'Libraries', desc: 'Configuration library used by many mods.' },
     { name: 'YetAnotherConfigLib (YACL)', id: '1eAoo2KR', cat: 'Libraries', desc: 'Config screen library used by many mods.' },
     { name: 'Architectury API', id: 'lhGA9TYQ', cat: 'Libraries', desc: 'Cross-platform library used by several mods.' }
@@ -121,7 +121,7 @@
   const desktopMq = window.matchMedia('(min-width: 881px)');
   const onDesktopChange = (e) => { if (e.matches) closeNav(); };
   if (desktopMq.addEventListener) desktopMq.addEventListener('change', onDesktopChange);
-  else if (desktopMq.addListener) desktopMq.addListener(onDesktopChange); // older Safari
+  else if (desktopMq.addListener) desktopMq.addListener(onDesktopChange);
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#nav')) closeNav();
   });
@@ -253,12 +253,12 @@
     const diff = Math.max(0, Date.now() - new Date(iso).getTime());
     const h = Math.floor(diff / 36e5);
     if (h < 1) return 'Just Now';
-    if (h < 24) return `${h}h ago`;
+    if (h < 24) return `${h}h Ago`;
     const d = Math.floor(h / 24);
-    if (d < 30) return `${d}d ago`;
+    if (d < 30) return `${d}d Ago`;
     const mo = Math.floor(d / 30);
-    if (mo < 12) return `${mo}mo ago`;
-    return `${Math.floor(mo / 12)}y ago`;
+    if (mo < 12) return `${mo}mo Ago`;
+    return `${Math.floor(mo / 12)}y Ago`;
   }
 
   const CACHE_KEY = 'cobblefine-stats';
@@ -356,8 +356,6 @@
   }
 
   const revealEls = document.querySelectorAll('.reveal');
-  // Once the fade-in has finished, drop the reveal classes so they no longer
-  // override the element's own hover transitions (e.g. cards, FAQ).
   const settle = (el) => setTimeout(() => el.classList.remove('reveal', 'in'), 800);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
