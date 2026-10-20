@@ -1,15 +1,4 @@
-}
-@font-face {
-  font-family: "Monocraft";
-  src: url("fonts/Monocraft.woff2") format("woff2"),
-       url("fonts/Monocraft.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --font: "Monocraft", "Courier New", monospace;
   --bg: #0b1a14;
   --bg-alt: #0f241b;
   --panel: #12301f;
@@ -30,15 +19,12 @@
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
   margin: 0;
-  font-family: var(--font);
-  font-size: 18px;
-  font-synthesis: none;
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
-
-button, input, summary { font-family: var(--font); }
 img { max-width: 100%; display: block; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
 .skip-link {
@@ -50,7 +36,7 @@ img { max-width: 100%; display: block; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 code {
-  font-family: var(--font);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
   background: rgba(255, 255, 255, 0.08);
   padding: 2px 7px;
   border-radius: 6px;
