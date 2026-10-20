@@ -38,7 +38,7 @@
     { name: 'No Chat Reports', id: 'qQyHxfxd', cat: 'Quality of Life', desc: 'Disables chat message signing and reporting.' },
     { name: 'Cape Provider', id: 'orXAsira', cat: 'Quality of Life', desc: 'Shows capes from supported cape providers.' },
     { name: 'Cubes Without Borders', id: 'ETlrkaYF', cat: 'Quality of Life', desc: 'Borderless fullscreen window mode.' },
-    { name: 'YOSBR', id: 'WwbubTsV', cat: 'Quality of Life', desc: 'Your Options Shall Be Respected — keeps default configs from overwriting yours.' },
+    { name: 'YOSBR', id: 'WwbubTsV', cat: 'Quality of Life', desc: 'Your Options Shall Be Respected - keeps default configs from overwriting yours.' },
 
     // Cobblemon
     { name: 'Cobblemon', id: 'MdwFAVRL', cat: 'Cobblemon', desc: 'The star of the show: catch, train and battle Pokémon in Minecraft.' },
@@ -293,7 +293,7 @@
     if (value) {
       el.textContent = value;
       el.parentElement.classList.remove('stat-hidden');
-    } else if (el.textContent.trim() === '—') {
+    } else if (el.textContent.trim() === '-') {
       el.parentElement.classList.add('stat-hidden');
     }
   }
