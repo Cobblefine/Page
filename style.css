@@ -9,6 +9,7 @@
 }
 
 :root {
+  --font: "Monocraft", "Courier New", monospace;
   --bg: #0b1a14;
   --bg-alt: #0f241b;
   --panel: #12301f;
