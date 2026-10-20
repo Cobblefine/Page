@@ -1,6 +1,8 @@
 (() => {
   'use strict';
 
+  window.__cfReady = true;
+
   const PROJECT_ID = 'suGMUori';
   const API = 'https://api.modrinth.com/v2';
 
@@ -116,9 +118,10 @@
       navToggle.focus();
     }
   });
-  window.matchMedia('(min-width: 881px)').addEventListener('change', (e) => {
-    if (e.matches) closeNav();
-  });
+  const desktopMq = window.matchMedia('(min-width: 881px)');
+  const onDesktopChange = (e) => { if (e.matches) closeNav(); };
+  if (desktopMq.addEventListener) desktopMq.addEventListener('change', onDesktopChange);
+  else if (desktopMq.addListener) desktopMq.addListener(onDesktopChange); // older Safari
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#nav')) closeNav();
   });
@@ -212,7 +215,7 @@
   if (dexStrip) {
     dexStrip.innerHTML = DEX.map(
       (m) =>
-        `<li><img src="${spriteUrl(m.id)}" alt="${esc(m.name)}" width="96" height="96" loading="lazy" decoding="async"><span class="no">#${pad3(m.id)}</span><span class="nm">${esc(m.name)}</span></li>`
+        `<li><img src="${spriteUrl(m.id)}" alt="" width="96" height="96" loading="lazy" decoding="async"><span class="no">#${pad3(m.id)}</span><span class="nm">${esc(m.name)}</span></li>`
     ).join('');
     dropBroken(dexStrip);
   }
@@ -237,7 +240,7 @@
         ok = false;
       }
     }
-    copyBtn.textContent = ok ? 'Copied!' : 'Press Ctrl+C';
+    copyBtn.textContent = ok ? 'Copied!' : 'Copy manually';
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => (copyBtn.textContent = 'Copy'), 1800);
   });
@@ -310,7 +313,9 @@
       getJson(`${API}/project/${PROJECT_ID}`),
       getJson(`${API}/project/${PROJECT_ID}/version?include_changelog=false`)
     ]);
-    const latest = Array.isArray(versions) && versions.length ? versions[0] : null;
+    const latest = Array.isArray(versions) && versions.length
+      ? [...versions].sort((a, b) => new Date(b.date_published) - new Date(a.date_published))[0]
+      : null;
     const data = {
       downloads: project ? project.downloads : null,
       followers: project ? project.followers : null,
@@ -325,6 +330,14 @@
   const video = $('#video');
   const videoPlay = $('#videoPlay');
   if (video && videoPlay) {
+    const thumb = $('img', videoPlay);
+    if (thumb) {
+      const fallback = () => {
+        thumb.src = `https://img.youtube.com/vi/${encodeURIComponent(video.dataset.yt)}/hqdefault.jpg`;
+      };
+      if (thumb.complete && thumb.naturalWidth === 0 && thumb.currentSrc) fallback();
+      else thumb.addEventListener('error', fallback, { once: true });
+    }
     videoPlay.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.dataset.yt)}?autoplay=1&rel=0&playsinline=1`;
@@ -343,6 +356,9 @@
   }
 
   const revealEls = document.querySelectorAll('.reveal');
+  // Once the fade-in has finished, drop the reveal classes so they no longer
+  // override the element's own hover transitions (e.g. cards, FAQ).
+  const settle = (el) => setTimeout(() => el.classList.remove('reveal', 'in'), 800);
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -350,13 +366,14 @@
           if (en.isIntersecting) {
             en.target.classList.add('in');
             io.unobserve(en.target);
+            settle(en.target);
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.05 }
     );
     revealEls.forEach((el) => io.observe(el));
   } else {
-    revealEls.forEach((el) => el.classList.add('in'));
+    revealEls.forEach((el) => el.classList.remove('reveal'));
   }
 })();

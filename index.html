@@ -5,9 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cobblefine</title>
   <meta name="description" content="Cobblefine is a lightweight, performance-focused Cobblemon modpack for Fabric on Minecraft 1.21.1. Built for low-end PCs and laptops.">
-  <meta name="theme-color" content="#0b1a14">
+  <meta name="theme-color" content="#202020">
   <meta name="color-scheme" content="dark">
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    document.documentElement.classList.add('js');
+    /* Failsafe: if script.js fails to load, never leave sections invisible. */
+    setTimeout(function () {
+      if (!window.__cfReady) document.documentElement.classList.add('reveal-fallback');
+    }, 4000);
+  </script>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cobblefine — The Optimization Modpack for Cobblemon">
   <meta name="twitter:description" content="Smooth, stable Cobblemon on low-end PCs. Fabric · Minecraft 1.21.1 · Client-side.">
@@ -24,6 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://i.imgur.com">
   <link rel="preconnect" href="https://api.modrinth.com" crossorigin>
+  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap"></noscript>
   <link rel="stylesheet" href="style.css">
@@ -41,7 +48,7 @@
       <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu" aria-controls="navLinks" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-      <nav class="nav-links" id="navLinks">
+      <nav class="nav-links" id="navLinks" aria-label="Main">
         <a href="#features">Features</a>
         <a href="#mods">Mods</a>
         <a href="#install">Install</a>
@@ -66,7 +73,7 @@
           <h1>Cobble<span>fine</span></h1>
           <p class="tagline">The optimization modpack of the Cobblemon mod.</p>
           <p class="lead">
-            All the fun of exploring, catching and battling your favorite Pokémon in Minecraft —
+            All the fun of exploring, catching and battling your favorite Pokémon in Minecraft -
             without the lag. Built for low-end PCs and laptops.
           </p>
           <div class="hero-actions">
@@ -177,7 +184,7 @@
         <h2 class="section-title reveal">Cobblemon 1.8 Update Supported</h2>
         <div class="video reveal" id="video" data-yt="nKokFJ1Nn2E">
           <button class="video-play" id="videoPlay" type="button" aria-label="Play the Cobblemon Showcase Video">
-            <img src="https://img.youtube.com/vi/nKokFJ1Nn2E/maxresdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+            <img src="https://img.youtube.com/vi/nKokFJ1Nn2E/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async">
             <span class="play-icon" aria-hidden="true"></span>
           </button>
           <noscript>
@@ -248,7 +255,7 @@
         </p>
         <div class="code reveal">
           <code id="jvmArgs">-XX:+UseZGC -XX:+ZGenerational</code>
-          <button class="btn btn-small" id="copyJvm" type="button">Copy</button>
+          <button class="btn btn-small" id="copyJvm" type="button" aria-live="polite">Copy</button>
         </div>
         <p class="note center reveal">
           Source: <a href="https://exa.y2k.diy/garden/jvm-args/" target="_blank" rel="noopener">exa.y2k.diy — JVM args</a>
