@@ -130,7 +130,7 @@ code {
 .hero-art { position: relative; }
 .hero-frame {
   border: 5px solid #1a1a1a; border-radius: 14px; overflow: hidden;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, .4), var(--shadow);
+  box-shadow: 8px 8px 0 rgba(20, 20, 20, .4), var(--shadow);
   background: #1a1a1a;
   transform: rotate(1.5deg);
   transition: transform .4s;
