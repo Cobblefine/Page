@@ -158,16 +158,9 @@ code {
 @keyframes drift { to { transform: translateX(140vw); } }
 
 .grass {
-  position: absolute; left: 0; right: 0; bottom: 0; height: 64px; z-index: 1;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 23px; z-index: 1;
   background:
-    linear-gradient(#7d7d7d 0 16px, #616161 16px 22px, #3b3b3b 22px 100%);
-}
-.grass::after {
-  content: ""; position: absolute; left: 0; right: 0; top: 22px; height: 100%;
-  background-image:
-    linear-gradient(90deg, rgba(20,20,20,.14) 2px, transparent 2px),
-    linear-gradient(rgba(20,20,20,.14) 2px, transparent 2px);
-  background-size: 32px 32px;
+    linear-gradient(#7d7d7d 0 16px, #616161 16px 22px, #202020 22px 100%);
 }
 
 .hero-mons { position: absolute; left: 0; right: 0; bottom: 56px; height: 76px; z-index: 2; pointer-events: none; }
