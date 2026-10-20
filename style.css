@@ -55,7 +55,7 @@ code {
   border-bottom: 1px solid var(--line);
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-.brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; font-size: 1.15rem; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; font-family: "Press Start 2P"; font-size: 1.15rem; }
 .brand:hover { text-decoration: none; }
 .brand img { border-radius: 8px; image-rendering: auto; }
 .nav-links { display: flex; align-items: center; gap: 22px; }
