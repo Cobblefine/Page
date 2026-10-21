@@ -307,6 +307,11 @@ code {
 .footer-links a { color: var(--muted); font-weight: 700; font-size: var(--fs-sm); padding: 6px 0; }
 .legal { color: #8c8c8c; font-size: var(--fs-xs); line-height: 1.7; margin: 0; }
 
+.section:not(#about), .cta, .footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
 .js:not(.reveal-fallback) .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
 .js:not(.reveal-fallback) .reveal.in { opacity: 1; transform: none; }
 .stat-hidden { display: none !important; }
@@ -372,7 +377,7 @@ html:not(.js) .stats li:not(:first-child) { display: none; }
   .dex .nm { font-size: var(--fs-xs); }
   .toolbar { flex-direction: column; align-items: stretch; }
   #modSearch { flex: none; width: 100%; max-width: none; }
-  .filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: -4%; padding: 2px 4% 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(50% - 50vw); padding: 2px calc(50vw - 50%) 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
   .filters::-webkit-scrollbar { display: none; }
   .filter { flex: none; white-space: nowrap; }
   .specs { gap: 10px; }
@@ -387,6 +392,73 @@ html:not(.js) .stats li:not(:first-child) { display: none; }
   .btn-large { padding: 15px 22px; width: 100%; justify-content: center; text-align: center; }
   .footer { padding: 32px 0; }
   .footer-links { gap: 6px 18px; }
+}
+
+html, body { overflow-x: clip; }
+
+.nav-inner,
+.container { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+.footer { padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 24px)); }
+
+@media (pointer: coarse) {
+  .nav-links a:not(.btn),
+  .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
+  .filter { min-height: 44px; padding-inline: 18px; }
+  .faq summary { min-height: 52px; align-items: center; }
+  .btn-small { min-height: 44px; }
+  .mod, .server, .pack { min-height: 56px; }
+  .video-play:focus-visible { outline-offset: -6px; }
+}
+
+@media (max-width: 880px) {
+  .clouds, .floaters { display: none; }
+  .hero-mons .mon { animation-duration: 3.2s; }
+  .hero-frame { transform: none; }
+  .hero-frame:hover { transform: none; }
+  .hero-text { text-align: left; }
+  .lead { max-width: none; }
+  .nav-links { padding-left: max(6%, env(safe-area-inset-left)); padding-right: max(6%, env(safe-area-inset-right)); }
+}
+
+@media (max-width: 480px) {
+  :root { --fs-h2: clamp(0.8rem, 3vw + 0.25rem, 1.1rem); }
+  .hero { padding: 32px 0 108px; }
+  .hero h1 { margin-bottom: 14px; text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); }
+  .tagline { font-size: 1.05rem; }
+  .lead { font-size: 1rem; margin-bottom: 22px; }
+  .eyebrow { font-size: var(--fs-xs); }
+  .section-title { margin-bottom: 14px; }
+  .section-sub { font-size: 1rem; }
+  .card .icon { width: 50px; height: 50px; font-size: 1.7rem; margin-bottom: 12px; }
+  .grid.cards { margin-top: 28px; gap: 14px; }
+  .grid.mods { gap: 10px; }
+  .mod { padding: 14px 16px; }
+  .grid.servers, .grid.packs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .server, .pack { padding: 14px; font-size: var(--fs-sm); }
+  .install-grid { margin-top: 26px; gap: 16px; }
+  .steps li { padding-left: 42px; }
+  .code { gap: 12px; }
+  .code code { font-size: var(--fs-sm); }
+  .cta { padding: 56px 0; }
+  .cta h2 { line-height: 1.7; }
+  .nav-inner { height: 60px; }
+  .nav-links { top: 60px; max-height: calc(100vh - 60px); max-height: calc(100dvh - 60px); }
+  .footer-top { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 360px) {
+  :root { --fs-brand: 0.7rem; --fs-stat: 1.15rem; }
+  .container, .container.narrow { width: 94%; }
+  .brand img { width: 30px; height: 30px; }
+  .grid.servers, .grid.packs { grid-template-columns: 1fr; }
+  .stats { gap: 12px 12px; }
+  .dex li { width: calc((100% - 10px) / 2); }
+  .btn { padding: 12px 18px; }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { padding: 28px 0 100px; }
+  .section { padding: 48px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

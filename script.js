@@ -325,7 +325,8 @@
     if (project && latest) writeCache(data);
     applyStats(data);
   }
-  loadStats();
+  if ('requestIdleCallback' in window) requestIdleCallback(loadStats, { timeout: 2000 });
+  else setTimeout(loadStats, 300);
 
   const video = $('#video');
   const videoPlay = $('#videoPlay');

@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Cobblefine</title>
   <meta name="description" content="Cobblefine is a lightweight, performance-focused Cobblemon modpack for Fabric on Minecraft 1.21.1. Built for low-end PCs and laptops.">
   <meta name="theme-color" content="#202020">
   <meta name="color-scheme" content="dark">
   <script>
     document.documentElement.classList.add('js');
-    /* Failsafe: if script.js fails to load, never leave sections invisible. */
     setTimeout(function () {
       if (!window.__cfReady) document.documentElement.classList.add('reveal-fallback');
     }, 4000);
@@ -30,7 +29,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://i.imgur.com">
   <link rel="preconnect" href="https://api.modrinth.com" crossorigin>
-  <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+  <link rel="preconnect" href="https://cdn.modrinth.com">
+  <link rel="dns-prefetch" href="https://img.youtube.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Press+Start+2P&display=swap"></noscript>
   <link rel="stylesheet" href="style.css">
@@ -339,6 +340,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
