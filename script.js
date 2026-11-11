@@ -52,7 +52,8 @@
     { name: 'Fabric Language Kotlin', id: 'Ha28R6CL', cat: 'Libraries', desc: 'Kotlin language adapter for Fabric mods.' },
     { name: 'Cloth Config v15', id: '9s6osm5g', cat: 'Libraries', desc: 'Configuration library used by many mods.' },
     { name: 'YetAnotherConfigLib (YACL)', id: '1eAoo2KR', cat: 'Libraries', desc: 'Config screen library used by many mods.' },
-    { name: 'Architectury API', id: 'lhGA9TYQ', cat: 'Libraries', desc: 'Cross-platform library used by several mods.' }
+    { name: 'Architectury API', id: 'lhGA9TYQ', cat: 'Libraries', desc: 'Cross-platform library used by several mods.' },
+    { name: 'OS Cobblemon Library', id: '8hdkMUPs', cat: 'Libraries', desc: 'Cobblemon library for mods.' }
   ];
 
   const PACKS = [
